@@ -1,0 +1,33 @@
+ Breakdown of Each Module:
+1. Show Movies & System Exit
+Developer: Dipendra Joshi
+Used Features:
+Arrays –  to store a list of movies.
+Functions – For tasks like displaying movie lists and handling exit logic.
+
+2. Seat Availability
+Developer: Yuvraj Singh
+Used Features:
+2D Arrays – To represent a seating chart (rows and columns).
+Functions – To check and return available seats.
+
+3. Ticket Booking
+Developer: Abhay Rawal
+Used Features:
+Structures – To store user or booking information (like name, seat number, movie).
+Arrays – For multiple records.
+File Handling – To save booking data persistently.
+
+4. Ticket Cancellation & Display
+Developer: Raman Rawat
+Used Features:
+File Handling – To delete or update booking data.
+Sructures – To identify and manage specific bookings.
+Functions – For cancellation and display operations.
+
+5. Main Menu
+Developer: All Team Members
+Used Features:
+Function Calls – To navigate between modules.
+Loops – To keep the menu running until the user exits.
+Switch-case – For menu-based navigation (user chooses an option from the list).

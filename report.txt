@@ -1,0 +1,7 @@
+
+dd	45	
+dd	45	
+ss	78	
+ss	55	
+he	4	
+gg	45	f	45	Available
