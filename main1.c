@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
-// ANSI Color Definitions
 #define BLACK   "\x1b[1;90m"
 #define RED     "\x1b[1;91m"
 #define GREEN   "\x1b[1;92m"
@@ -18,21 +18,21 @@
 #define ADMIN_USER "joshi"
 #define ADMIN_PASS "1234"
 
-struct moviedetails 
-{
+struct moviedetails {
     char name[50], phone[15], movie[50];
     int seat, id;
+    char date[20];
+    char time[10];
 } bookings[MAX_BOOKINGS];
 
-struct user 
-{
+struct user {
     char username[30], password[20];
 } users[MAX_USERS];
 
 int bookingCount = 0, bookingID = 1000, userCount = 0, seat[3][101] = {0};
 char *movies[] = {"ONE PIECE RED", "ONE PIECE GOLD", "ONE PIECE Z"};
+char *showTimes[] = {"10:00", "14:00", "18:00"};
 
-// Corrected Function prototypes with matching return types
 void mainMenu();
 void adminPanel();
 void userMenu(const char*);
@@ -52,15 +52,13 @@ void cancelTicket();
 void generateTicket(struct moviedetails, int);
 void refundMessage();
 
-int main()
-{
+int main() {
     loadUsers();
     loadBookings();
     mainMenu();
     return 0;
 }
-void loadUsers() 
-{
+void loadUsers() {
     FILE *f = fopen("users.txt", "r");
     if (f) {
         while (fscanf(f, "%s %s", users[userCount].username, users[userCount].password) == 2 && userCount < MAX_USERS)
@@ -68,8 +66,7 @@ void loadUsers()
         fclose(f);
     }
 }
-void saveUser(struct user u) 
-{
+void saveUser(struct user u) {
     FILE *f = fopen("users.txt", "a");
     if (f) {
         fprintf(f, "%s %s\n", u.username, u.password);
@@ -78,18 +75,16 @@ void saveUser(struct user u)
         printf(RED "Error saving user data.\n" RESET);
     }
 }
-void loadBookings() 
-{
+void loadBookings() {
     FILE *f = fopen("bookings.txt", "r");
     if (f) {
-        while (fscanf(f, "%d %s %s %d %s", 
-            &bookings[bookingCount].id, bookings[bookingCount].name, bookings[bookingCount].phone, &bookings[bookingCount].seat, bookings[bookingCount].movie) == 5) {
+        while (fscanf(f, "%d %s %s %d %s %s %s",
+                      &bookings[bookingCount].id, bookings[bookingCount].name, bookings[bookingCount].phone,
+                      &bookings[bookingCount].seat, bookings[bookingCount].movie, bookings[bookingCount].date,
+                      bookings[bookingCount].time) == 7) {
             for (int i = 0; i < 3; i++) {
-                if (strcmp(bookings[bookingCount].movie, movies[i]) == 0) 
-                {
+                if (strcmp(bookings[bookingCount].movie, movies[i]) == 0)
                     seat[i][bookings[bookingCount].seat] = 1;
-                    break;
-                }
             }
             if (bookings[bookingCount].id >= bookingID)
                 bookingID = bookings[bookingCount].id + 1;
@@ -99,35 +94,31 @@ void loadBookings()
         fclose(f);
     }
 }
-void saveBooking(struct moviedetails b) 
-{
+void saveBooking(struct moviedetails b) {
     FILE *f = fopen("bookings.txt", "a");
     if (f) {
-        fprintf(f, "%d %s %s %d %s\n", b.id, b.name, b.phone, b.seat, b.movie);
+        fprintf(f, "%d %s %s %d %s %s %s\n", b.id, b.name, b.phone, b.seat, b.movie, b.date, b.time);
         fclose(f);
     } else {
         printf(RED "Error saving booking data.\n" RESET);
     }
 }
-void saveAllBookings() 
-{
+void saveAllBookings() {
     FILE *f = fopen("bookings.txt", "w");
-    if (f) 
-    {
-        for (int i = 0; i < bookingCount; i++) 
-        {
-            fprintf(f, "%d %s %s %d %s\n", bookings[i].id, bookings[i].name, bookings[i].phone, bookings[i].seat, bookings[i].movie);
+    if (f) {
+        for (int i = 0; i < bookingCount; i++) {
+            fprintf(f, "%d %s %s %d %s %s %s\n",
+                    bookings[i].id, bookings[i].name, bookings[i].phone,
+                    bookings[i].seat, bookings[i].movie, bookings[i].date, bookings[i].time);
         }
         fclose(f);
     } else {
         printf(RED "Error saving booking data.\n" RESET);
     }
 }
-void mainMenu() 
-{
+void mainMenu() {
     int choice;
-    while (1) 
-    {
+    while (1) {
         printf(CYAN "\n==================================================\n" RESET);
         printf(MAGENTA "            MOVIE TICKET BOOKING SYSTEM           \n" RESET);
         printf(CYAN "==================================================\n" RESET);
@@ -139,8 +130,7 @@ void mainMenu()
             case 1: adminPanel(); break;
             case 2: registerUser(); break;
             case 3:
-                if (loginUser()) 
-                {
+                if (loginUser()) {
                     char username[30];
                     printf("Enter your username again to proceed: ");
                     scanf("%s", username);
@@ -155,12 +145,10 @@ void mainMenu()
         }
     }
 }
-void adminPanel() 
-{
+void adminPanel() {
     if (!loginAdmin()) return;
     int choice;
-    while (1) 
-    {
+    while (1) {
         printf(BLUE "\n================= ADMIN PANEL ====================\n" RESET);
         printf("1. View All Bookings\n2. View Seats\n3. Back to Main Menu\n");
         printf(BLUE "--------------------------------------------------\n" RESET);
@@ -174,10 +162,8 @@ void adminPanel()
         }
     }
 }
-void registerUser() 
-{
-    if (userCount >= MAX_USERS) 
-    {
+void registerUser() {
+    if (userCount >= MAX_USERS) {
         printf(RED "User limit reached. Cannot register more users.\n" RESET);
         return;
     }
@@ -192,8 +178,7 @@ void registerUser()
     printf(GREEN "Registration successful! Welcome, %s!\n" RESET, newUser.username);
     userMenu(newUser.username);
 }
-int loginUser()
-{
+int loginUser() {
     char name[30], pass[20];
     printf(CYAN "\n--------------- User Login -----------------\n" RESET);
     printf("Enter Username: ");
@@ -201,8 +186,7 @@ int loginUser()
     printf("Enter Password: ");
     scanf("%s", pass);
     for (int i = 0; i < userCount; i++) {
-        if (strcmp(name, users[i].username) == 0 && strcmp(pass, users[i].password) == 0) 
-        {
+        if (strcmp(name, users[i].username) == 0 && strcmp(pass, users[i].password) == 0) {
             printf(GREEN "Welcome, %s!\n" RESET, name);
             return 1;
         }
@@ -210,8 +194,7 @@ int loginUser()
     printf(RED "Invalid user credentials.\n" RESET);
     return 0;
 }
-int loginAdmin() 
-{
+int loginAdmin() {
     char name[30], pass[20];
     printf(CYAN "\n--------------- Admin Login ----------------\n" RESET);
     printf("Enter Admin Username: ");
@@ -225,8 +208,7 @@ int loginAdmin()
     printf(RED "Invalid admin credentials.\n" RESET);
     return 0;
 }
-void userMenu(const char* username) 
-{
+void userMenu(const char* username) {
     int choice;
     while (1) {
         printf(CYAN "\n================== USER PANEL ====================\n" RESET);
@@ -239,8 +221,7 @@ void userMenu(const char* username)
             case 2: cancelTicket(); break;
             case 3: viewSeats(); break;
             case 4: viewMyBookings(username); break;
-            case 5: 
-            {
+            case 5: {
                 char confirm;
                 printf(YELLOW "Are you sure you want to logout? (Y/N): " RESET);
                 scanf(" %c", &confirm);
@@ -251,21 +232,25 @@ void userMenu(const char* username)
         }
     }
 }
-void viewBookings() 
-{
+void viewBookings() {
     printf(YELLOW "\n================= ALL BOOKINGS ===================\n" RESET);
     if (bookingCount == 0) {
         printf(RED "No bookings found.\n" RESET);
         return;
     }
     for (int i = 0; i < bookingCount; i++) {
-        printf("--------------------------------------------------\n");
-        printf("Booking ID : %d\nMovie      : %s\nName       : %s\nPhone      : %s\nSeat No.   : %d\n", bookings[i].id, bookings[i].movie, bookings[i].name, bookings[i].phone, bookings[i].seat);
+        printf(BLUE "--------------------------------------------------\n" RESET);
+        printf(GREEN "Booking ID : %d\n", bookings[i].id);
+        printf("Movie      : %s\n", bookings[i].movie);
+        printf("Name       : %s\n", bookings[i].name);
+        printf("Phone      : %s\n", bookings[i].phone);
+        printf("Seat No.   : %d\n", bookings[i].seat);
+        printf("Date       : %s\n", bookings[i].date);
+        printf("Time       : %s\n", bookings[i].time);
     }
-    printf("--------------------------------------------------\n");
+    printf(BLUE "--------------------------------------------------\n" RESET);
 }
-void viewSeats() 
-{
+void viewSeats() {
     for (int i = 0; i < 3; i++) {
         printf("\n" MAGENTA "Movie: %s\n" RESET, movies[i]);
         for (int j = 1; j <= 100; j++) {
@@ -273,30 +258,40 @@ void viewSeats()
             if (j % 10 == 0) printf("\n");
         }
     }
+    printf("\n");
 }
-void viewMyBookings(const char* username) 
-{
+void viewMyBookings(const char* username) {
     int found = 0;
     printf(YELLOW "\n================ YOUR BOOKINGS ===================\n" RESET);
     for (int i = 0; i < bookingCount; i++) {
         if (strcmp(bookings[i].name, username) == 0) {
-            printf("Booking ID: %d | Movie: %s | Seat: %d\n", bookings[i].id, bookings[i].movie, bookings[i].seat);
+            printf(GREEN "Booking ID: %d | Movie: %s | Seat: %d | Date: %s | Time: %s\n" RESET,
+                   bookings[i].id, bookings[i].movie, bookings[i].seat, bookings[i].date, bookings[i].time);
             found = 1;
         }
     }
     if (!found) printf(RED "No bookings found under your name.\n" RESET);
 }
-void bookTicket(const char* username) 
-{
-    int movieIndex, s;
+void bookTicket(const char* username) {
+    int movieIndex, s, timeChoice;
     printf(CYAN "\n----------------- Movie Selection ----------------\n" RESET);
     for (int i = 0; i < 3; i++)
-        printf("%d. %s\n", i + 1, movies[i]);
+        printf(YELLOW "%d. %s\n" RESET, i + 1, movies[i]);
     printf(CYAN "--------------------------------------------------\n" RESET);
     printf("Choice: ");
     scanf("%d", &movieIndex);
     if (movieIndex < 1 || movieIndex > 3) {
         printf(RED "Invalid movie selection.\n" RESET);
+        return;
+    }
+    printf("\nAvailable Show Timings:\n");
+    for (int i = 0; i < 3; i++) {
+        printf(YELLOW "%d. %s\n" RESET, i + 1, showTimes[i]);
+    }
+    printf("Select show time (1-3): ");
+    scanf("%d", &timeChoice);
+    if (timeChoice < 1 || timeChoice > 3) {
+        printf(RED "Invalid time selection.\n" RESET);
         return;
     }
     printf("\nAvailable Seats for %s:\n", movies[movieIndex - 1]);
@@ -306,56 +301,68 @@ void bookTicket(const char* username)
     }
     printf("\nEnter seat number to book: ");
     scanf("%d", &s);
-    if (s < 1 || s > 100 || seat[movieIndex - 1][s]) 
-    {
+    if (s < 1 || s > 100 || seat[movieIndex - 1][s]) {
         printf(RED "Seat not available.\n" RESET);
         return;
     }
-    struct moviedetails b = {.seat = s, .id = bookingID++, .name = "", .phone = "", .movie = ""};
+    struct moviedetails b = {.seat = s, .id = bookingID++};
     strcpy(b.name, username);
     printf("Enter phone number: ");
     scanf("%s", b.phone);
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+    strftime(b.date, sizeof(b.date), "%d-%m-%Y", t);
+    strcpy(b.time, showTimes[timeChoice - 1]);
     strcpy(b.movie, movies[movieIndex - 1]);
     bookings[bookingCount++] = b;
     seat[movieIndex - 1][s] = 1;
     saveBooking(b);
-    generateTicket(b, 500);
+    printf(GREEN "\nTicket booked successfully!\n" RESET);
+    generateTicket(b, 100);  
 }
-void cancelTicket() 
-{
+void cancelTicket() {
     int id;
-    char confirm;
-    printf("\nEnter Booking ID to cancel: ");
+    printf("Enter Booking ID to cancel: ");
     scanf("%d", &id);
+    int found = -1;
     for (int i = 0; i < bookingCount; i++) {
         if (bookings[i].id == id) {
-            printf(YELLOW "Booking for %s (Seat %d in %s) found.\n" RESET, bookings[i].name, bookings[i].seat, bookings[i].movie);
-            printf(YELLOW "Are you sure you want to cancel? (Y/N): " RESET);
-            scanf(" %c", &confirm);
-            if (confirm == 'Y' || confirm == 'y') {
-                for (int j = 0; j < 3; j++) {
-                    if (strcmp(bookings[i].movie, movies[j]) == 0) {
-                        seat[j][bookings[i].seat] = 0;
-                        break;
-                    }
-                }
-                for (int j = i; j < bookingCount - 1; j++)
-                    bookings[j] = bookings[j + 1];
-                bookingCount--;
-                saveAllBookings();
-                refundMessage();
-            }
-            return;
+            found = i;
+            break;
         }
     }
-    printf(RED "Booking ID not found.\n" RESET);
-}
-void refundMessage()
-{
-    printf(YELLOW "Refund process initiated. Amount will be credited back within 3-5 business days.\n" RESET);
+    if (found == -1) {
+        printf(RED "Booking ID not found.\n" RESET);
+        return;
+    }
+    for (int i = 0; i < 3; i++) {
+        if (strcmp(bookings[found].movie, movies[i]) == 0) {
+            seat[i][bookings[found].seat] = 0;
+            break;
+        }
+    }
+    printf(GREEN "Booking ID %d canceled successfully.\n" RESET, id);
+    for (int i = found; i < bookingCount - 1; i++) {
+        bookings[i] = bookings[i + 1];
+    }
+    bookingCount--;
+    saveAllBookings();
+    refundMessage();
 }
 void generateTicket(struct moviedetails b, int price) {
-    printf(GREEN "\n------------------ TICKET -------------------\n" RESET);
-    printf("Booking ID: %d\nName: %s\nPhone: %s\nMovie: %s\nSeat No.: %d\nPrice: Rs. %d\n", b.id, b.name, b.phone, b.movie, b.seat, price);
-    printf(GREEN "----------------------------------------------\n\n" RESET);
+    printf(GREEN "\n+------------------------------------------+\n" RESET);
+    printf(GREEN "|               TICKET DETAILS              |\n" RESET);
+    printf(GREEN "+------------------------------------------+\n" RESET);
+    printf(GREEN "| Booking ID : %-30d |\n", b.id);
+    printf(GREEN "| Name       : %-30s |\n", b.name);
+    printf(GREEN "| Phone      : %-30s |\n", b.phone);
+    printf(GREEN "| Movie      : %-30s |\n", b.movie);
+    printf(GREEN "| Seat No.   : %-30d |\n", b.seat);
+    printf(GREEN "| Date       : %-30s |\n", b.date);
+    printf(GREEN "| Time       : %-30s |\n", b.time);
+    printf(GREEN "| Price      : Rs. %-27d |\n", price);
+    printf(GREEN "+------------------------------------------+\n\n" RESET);
+}
+void refundMessage() {
+    printf(YELLOW "Refund will be processed within 7 working days.\n" RESET);
 }
