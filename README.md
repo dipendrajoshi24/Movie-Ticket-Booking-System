@@ -3,7 +3,6 @@
 A fully functional **Movie Ticket Booking System** written in **C**. This project is a console-based application that allows users to register, log in, and book movie tickets. Admins can add or remove movies, manage schedules, and view booking records. All data is stored using simple file handling.
 
 ## 📌 Features
-
 - ✅ User Registration & Login
 - ✅ Admin Login
 - ✅ Add/View/Delete Movies (Admin)
