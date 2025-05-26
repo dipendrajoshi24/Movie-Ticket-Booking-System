@@ -59,8 +59,6 @@ Add/delete movies, manage schedules, and view all bookings.
 # 💾 Data Storage
 Users: Stored in users.dat (format: username,password).
 
-Movies: Stored in movies.dat (format: movie_id,title,showtime,seats_available).
-
 Bookings: Stored in bookings.dat (format: booking_id,username,movie_id,seats_booked).
 
 # 🤝 Contributing
