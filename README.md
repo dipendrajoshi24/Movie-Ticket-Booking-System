@@ -56,15 +56,15 @@ Admin Flow:
 
 Add/delete movies, manage schedules, and view all bookings.
 
-# 💾 Data Storage
+# # 💾 Data Storage
 Users: Stored in users.dat (format: username,password).
 
 Bookings: Stored in bookings.dat (format: booking_id,username,movie_id,seats_booked).
 
-# 🤝 Contributing
-Contributions are welcome! Open an issue or submit a PR:
+# #🤝 Contributing
+Contributions are welcome Open an issue or submit a PR:
 
-# 🙏 Acknowledgements
+# #🙏 Acknowledgements
 ANSI color codes for terminal styling.
 
 Inspired by real-world ticket booking systems.
