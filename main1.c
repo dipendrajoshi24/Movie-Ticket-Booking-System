@@ -26,7 +26,7 @@ struct moviedetails {
 } bookings[MAX_BOOKINGS];
 
 struct user {
-    char username[30], password[20];
+    char username[30],password[20];
 } users[MAX_USERS];
 
 int bookingCount = 0, bookingID = 1000, userCount = 0, seat[3][101] = {0};
