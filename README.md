@@ -17,7 +17,7 @@ A fully functional **Movie Ticket Booking System** written in **C**. This consol
 - ✅ **File-Based Storage**: Data persisted in text files (`users.dat`, `movies.dat`, `bookings.dat`).
 - ✅ **Colored Terminal Output**: Enhanced UX with ANSI escape codes.
 
-### 🛠️ Prerequisites
+### Prerequisites
 - **GCC Compiler**
 - Terminal supporting ANSI colors (e.g., [Windows Terminal](https://aka.ms/terminal), Linux/macOS terminals)
 
