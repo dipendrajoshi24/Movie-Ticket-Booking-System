@@ -8,16 +8,16 @@ A fully functional **Movie Ticket Booking System** written in **C**. This consol
 - ✅ **Cancel Bookings**: Cancel existing bookings using the booking ID.
 
 ### Admin Features
-- ✅ **Add/Remove Movies**: Manage the list of movies and schedules.
-- ✅ **View Bookings**: Access all booking records.
-- ✅ **Admin Login**: Dedicated admin portal with password protection.
+- ✅ Add/Remove Movies: Manage the list of movies and schedules.
+- ✅ View Bookings: Access all booking records.
+- ✅ Admin Login: Dedicated admin portal with password protection.
 
 ### General
-- ✅ **File-Based Storage**: Data persisted in text files (`users.dat`, `movies.dat`, `bookings.dat`).
-- ✅ **Colored Terminal Output**: Enhanced UX with ANSI escape codes.
+- ✅ File-Based Storage: Data persisted in text files (`users.dat`, `movies.dat`, `bookings.dat`).
+- ✅ Colored Terminal Output: Enhanced UX with ANSI escape codes.
 
 ### Prerequisites
-- **GCC Compiler**
+- GCC Compiler
 - Terminal supporting ANSI colors (e.g., [Windows Terminal](https://aka.ms/terminal), Linux/macOS terminals)
 
 ### 🚀 Installation
