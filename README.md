@@ -63,5 +63,4 @@ Contributions are welcome Open an issue or submit a PR:
 
 ### 🙏 Acknowledgements
 ANSI color codes for terminal styling.
-
 Inspired by real-world ticket booking systems.
