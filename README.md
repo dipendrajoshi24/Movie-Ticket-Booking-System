@@ -62,6 +62,6 @@ Bookings: Stored in bookings.dat (format: booking_id,username,movie_id,seats_boo
 ### 🤝 Contributing
 Contributions are welcome Open an issue or submit a PR:
 
-### 🙏 Acknowledgements
+## 🙏 Acknowledgements
 ANSI color codes for terminal styling.
 Inspired by real-world ticket booking systems.
