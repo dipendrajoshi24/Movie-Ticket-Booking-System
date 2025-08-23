@@ -20,7 +20,6 @@ A fully functional **Movie Ticket Booking System** written in **C**. This consol
 ### Prerequisites
 - GCC Compiler
 - Terminal supporting ANSI colors (e.g., [Windows Terminal](https://aka.ms/terminal), Linux/macOS terminals)
-
 ### 🚀 Installation
 1. Clone the repository:
    ```bash
