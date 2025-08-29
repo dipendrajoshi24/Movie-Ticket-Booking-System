@@ -33,6 +33,7 @@ Run the executable:
 
 bash
 ./movie_ticket_system
+
 ### 🎥 Usage
 Launch the Application: Run the compiled executable.
 
