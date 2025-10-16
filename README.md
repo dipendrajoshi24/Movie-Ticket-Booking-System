@@ -1,4 +1,4 @@
-# 🎟️ Movie Ticket Booking System
+## 🎟️ Movie Ticket Booking System
 A fully functional **Movie Ticket Booking System** written in **C**. This console-based application allows users to register, log in, and book movie tickets. Admins can manage movies, schedules, and view bookings. Data is persisted using file handling.
 ## 📌 Features
 ### User Features
