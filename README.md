@@ -53,7 +53,7 @@ Admin Flow:
 
 Add/delete movies, manage schedules, and view all bookings.
 
-### 💾 Data Storage
+## 💾 Data Storage
 Users: Stored in users.dat (format: username,password).
 Bookings: Stored in bookings.dat (format: booking_id,username,movie_id,seats_booked).
 
