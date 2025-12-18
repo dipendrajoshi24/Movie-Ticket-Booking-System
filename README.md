@@ -57,7 +57,7 @@ Add/delete movies, manage schedules, and view all bookings.
 Users: Stored in users.dat (format: username,password).
 Bookings: Stored in bookings.dat (format: booking_id,username,movie_id,seats_booked).
 
-### 🤝 Contributing
+## 🤝 Contributing
 Contributions are welcome Open an issue or submit a PR:
 
 ## 🙏 Acknowledgements
